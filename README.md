@@ -11,4 +11,7 @@ rooting_trees:
 The aim of the program is to find unique roots in a forest of trees. The input has to be a text file with each line representing a parent child relationship of the form "child_id[space]parent_id". The second argument will be output file that will containg the unique root_ids as output at the end.
 
 gaussian_kernel:
-The aim of the program is to calculate the Gaussian filter on a matrix. The program takes the size of square matrix and a constant as input. 
+The aim of the program is to calculate the Gaussian filter on a matrix. The program takes the size of square matrix and a constant as input. There is an error as boundary conditions are not handled in CUDA Kernel.
+
+2d_filter:
+The aim of the program is to apply a 2D filter on a matrix. The program takes dimensions of the matrix as input. The solution is not at all optimum as it is done with foolish parallelism. This was my entry to parallel computing. 
