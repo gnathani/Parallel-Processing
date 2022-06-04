@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <mpi.h>
+#include <algorithm>
+#include <random>
+
+#include "hqs.hpp"
+
+using namespace std;
+
+int main(int argc, char* argv[]) {
+    int size, rank;
+
+    MPI_Init(&argc, &argv);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    if (argc < 2) {
+        if (rank == 0) cout << "usage: " << argv[0] << " n" << endl;
+        return MPI_Finalize();
+    }
+
+    long long int n = atoll(argv[1]);
+
+    long long int loc_n = (n/size);
+    if (rank == size - 1) loc_n = n - ((size-1) * loc_n);
+    
+    vector<int> x(loc_n);
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+    uniform_int_distribution<int> ui(-100000, 100000);
+    auto rng = bind(ui, g);
+
+    generate(begin(x), end(x), rng);
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    auto t0 = MPI_Wtime();
+
+    hyperquick_sort(x, MPI_COMM_WORLD);
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    auto t1 = MPI_Wtime();
+
+    if (rank == 0) cout << (t1 - t0) << endl;
+
+    return MPI_Finalize();
+} // main
