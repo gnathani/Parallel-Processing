@@ -1,4 +1,4 @@
-# Prallel-Processing
+# Parallel-Processing
 Assignments as part of Academic Coursework -  (OpenMP, MPI, CUDA, MapReduce)
 
 count_sort:
